@@ -5,7 +5,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import ru.job4j.accident.service.IAccidentService;
+import ru.job4j.accident.model.Accident;
+import ru.job4j.accident.service.IService;
 
 /**
  * IndexControl.
@@ -19,9 +20,9 @@ public class IndexControl {
 
     @Autowired
     @Qualifier("accidentService")
-    private IAccidentService accidentService;
+    private IService<Accident> accidentService;
 
-    public void setAccidentService(IAccidentService accidentService) {
+    public void setAccidentService(IService<Accident> accidentService) {
         this.accidentService = accidentService;
     }
 

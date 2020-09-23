@@ -22,6 +22,7 @@
             <th scope="col">Address</th>
             <th scope="col">Description</th>
             <th scope="col">Participants</th>
+            <th scope="col">Creation date</th>
             <th scope="col"></th>
             <th scope="col"></th>
         </tr>
@@ -40,6 +41,7 @@
                         </a></p>
                     </c:forEach>
                 </td>
+                <td>${accident.created}</td>
                 <td>
                     <form action='${pageContext.servletContext.contextPath}/edit-accident' method='get'>
                         <input type='hidden' name='id' value="${accident.id}"/>

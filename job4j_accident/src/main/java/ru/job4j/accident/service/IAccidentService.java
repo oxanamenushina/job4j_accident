@@ -1,7 +1,5 @@
 package ru.job4j.accident.service;
 
-import ru.job4j.accident.model.Accident;
-
 import java.util.Collection;
 
 /**
@@ -11,15 +9,15 @@ import java.util.Collection;
  * @version $Id$
  * @since 0.1
  */
-public interface IAccidentService {
-
-    void add(Accident accident);
-
-    void delete(int id);
-
-    void update(Accident accident);
-
-    Accident getElementById(int id);
-
-    Collection<Accident> getList();
-}
+//public interface IAccidentService<T> {
+//
+//    void add(T element);
+//
+//    void delete(int id);
+//
+//    void update(T element);
+//
+//    T getElementById(int id);
+//
+//    Collection<T> getList();
+//}

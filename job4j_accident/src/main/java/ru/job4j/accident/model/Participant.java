@@ -1,6 +1,10 @@
 package ru.job4j.accident.model;
 
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Participant.
@@ -9,32 +13,40 @@ import java.util.Objects;
  * @version $Id$
  * @since 0.1
  */
-public class Participant {
+@Entity
+@Table(name = "participant")
+public class Participant implements Serializable {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column (name = "name")
     private String name;
+
+    @Column (name = "address")
     private String address;
+
+    @Column (name = "passport_data")
     private String passportData;
+
+    @Column (name = "phone")
     private String phone;
+
+    @OneToMany(mappedBy = "participant", fetch = FetchType.EAGER)
+    private Set<AccidentParticipant> accidentParticipants = new HashSet<>();
+
+    @Transient
     private ParticipantStatus status;
 
     public Participant() {
     }
 
-    public Participant(int id, String name, String address, String email, String phone, ParticipantStatus status) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.passportData = email;
-        this.phone = phone;
-        this.status = status;
-    }
-
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -68,6 +80,10 @@ public class Participant {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Set<AccidentParticipant> getAccidentParticipants() {
+        return accidentParticipants;
     }
 
     public ParticipantStatus getStatus() {
@@ -107,8 +123,7 @@ public class Participant {
                 + ", name='" + name + '\''
                 + ", address='" + address + '\''
                 + ", passportData='" + passportData + '\''
-                + ", phone='" + phone + '\''
-                + ", status=" + status
+                + ", phone='" + phone
                 + '}';
     }
 }

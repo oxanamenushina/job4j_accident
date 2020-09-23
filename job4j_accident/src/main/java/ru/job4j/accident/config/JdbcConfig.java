@@ -16,9 +16,9 @@ import javax.sql.DataSource;
  * @version $Id$
  * @since 0.1
  */
-@Configuration
-@PropertySource("classpath:app.properties")
-@EnableTransactionManagement
+//@Configuration
+//@PropertySource("classpath:app.properties")
+//@EnableTransactionManagement
 public class JdbcConfig {
 
     @Bean

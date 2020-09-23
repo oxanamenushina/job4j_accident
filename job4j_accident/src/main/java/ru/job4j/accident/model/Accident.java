@@ -1,5 +1,8 @@
 package ru.job4j.accident.model;
 
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -11,29 +14,41 @@ import java.util.Set;
  * @version $Id$
  * @since 0.1
  */
-public class Accident {
+@Entity
+@Table(name = "accident")
+public class Accident implements Serializable {
 
-    private int id;
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column (name = "name")
     private String name;
+
+    @Column (name = "description", length = 10000)
     private String desc;
+
+    @Column (name = "address")
     private String address;
+
+    @Column (name = "creation_date", updatable = false)
+    @Temporal(TemporalType.DATE)
+    private Date created = new Date();
+
+    @OneToMany(mappedBy = "accident", fetch = FetchType.EAGER)
+    private Set<AccidentParticipant> accidentParticipants = new HashSet<>();
+
+    @Transient
     private Set<Participant> participants = new HashSet<>();
 
     public Accident() {
     }
 
-    public Accident(int id, String name, String desc, String address) {
-        this.id = id;
-        this.name = name;
-        this.desc = desc;
-        this.address = address;
-    }
-
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -61,6 +76,14 @@ public class Accident {
         this.address = address;
     }
 
+    public Date getCreated() {
+        return created;
+    }
+
+    public Set<AccidentParticipant> getAccidentParticipants() {
+        return accidentParticipants;
+    }
+
     public Set<Participant> getParticipants() {
         return participants;
     }
@@ -82,12 +105,12 @@ public class Accident {
                 && Objects.equals(name, accident.name)
                 && Objects.equals(desc, accident.desc)
                 && Objects.equals(address, accident.address)
-                && Objects.equals(participants, accident.participants);
+                && Objects.equals(created, accident.created);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, desc, address, participants);
+        return Objects.hash(id, name, desc, address, created);
     }
 
     @Override
@@ -95,8 +118,10 @@ public class Accident {
         return "Accident{"
                 + "id=" + id
                 + ", name='" + name + '\''
-                + ", text='" + desc + '\''
+                + ", desc='" + desc + '\''
                 + ", address='" + address + '\''
+                + ", created=" + created
+                + ", accidentParticipants=" + accidentParticipants
                 + ", participants=" + participants
                 + '}';
     }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accident.model.Accident;
-import ru.job4j.accident.service.IAccidentService;
+import ru.job4j.accident.service.IService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,11 +24,11 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class AccidentController {
 
-    private IAccidentService accidentService;
+    private IService<Accident> accidentService;
 
     @Autowired
     @Qualifier("accidentService")
-    public void setAccidentService(IAccidentService accidentService) {
+    public void setAccidentService(IService<Accident> accidentService) {
         this.accidentService = accidentService;
     }
 
@@ -40,18 +40,17 @@ public class AccidentController {
     }
 
     @GetMapping("/edit-accident")
-    public String editAccident(@RequestParam int id, Model model, HttpServletRequest req) {
+    public String editAccident(@RequestParam long id, Model model, HttpServletRequest req) {
         Accident accident = this.accidentService.getElementById(id);
         HttpSession session = req.getSession();
         session.setAttribute("current", accident);
-
         model.addAttribute("accident", accident);
         return "/editaccident";
     }
 
     @PostMapping("/delete-accident")
-    public String deleteAccident(@RequestParam int id) {
-        this.accidentService.delete(id);
+    public String deleteAccident(@RequestParam long id) {
+        this.accidentService.delete(this.accidentService.getElementById(id));
         return "redirect:/";
     }
 
